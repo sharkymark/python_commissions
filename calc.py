@@ -1,4 +1,4 @@
-def plantype(args):
+def plantype(args, default_fixed_rate=None):
 
   # commission plan
 
@@ -14,29 +14,43 @@ def plantype(args):
   a = args[4]
 
   if pt == "fixedrate":
-    rt = float(input(f"entered commission rate: "))
-    print("what you typed: " + str(rt))
-    commission,rt = fixedrate(r,rt)
-
+    # Use default rate if provided, otherwise prompt the user
+    if default_fixed_rate is not None:
+        default_prompt = f"Enter commission rate (percentage) [{default_fixed_rate}%]: "
+        user_input = input(default_prompt)
+        if user_input.strip() == "":
+            rt = default_fixed_rate
+        else:
+            try:
+                rt = float(user_input)
+            except ValueError:
+                print("Invalid input, using default rate.")
+                rt = default_fixed_rate
+    else:
+        rt = float(input("Enter commission rate (percentage): "))
+    
+    rt = rt / 100  # Convert percentage to decimal
+    commission = float(r) * rt
+    
   if pt == "varrate":  
-    commission,rt = varrate(q, v, r)
+    commission, rt = varrate(q, v, r)
 
   if pt == "leveraged":
-    commission,rt = leveraged(q, v, r)
+    commission, rt = leveraged(q, v, r)
 
   inputs(pt,r,v,q,a)
 
   print('\n** Commission Calculations **')
-  print("commission: $" + str(commission))
-  print('rate (or attainment): ' + str(rt*100) + "%")
+  print(f"commission: ${commission:.2f}")
+  print(f'rate (or attainment): {rt*100:.2f}%')
 
 def inputs(pt,r,v,q,a):
   print('\n** Input & References Variables **')
   print('plan type: ' + pt)
-  print('revenue: $' + r)
-  print('variable compensation: $' + v)
-  print('quota: $' + q)
-  print('quota attained before this revenue: $' + a)
+  print(f'revenue: ${float(r):.2f}')
+  print(f'variable compensation: ${float(v):.2f}')
+  print(f'quota: ${float(q):.2f}')
+  print(f'quota attained before this revenue: ${float(a):.2f}')
 
 def fixedrate(r,rt):
   rt = float(rt)/100

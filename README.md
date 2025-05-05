@@ -1,13 +1,6 @@
-##### Change log
+# Sales commissions calculator
 
-05/31/21
-- use of dict, if/else, str/upper, args
-- definitions, import, multi-line comments
-
-
-# Sample Python application
-
-This is a Python console application that calculates sales commissions depending on the rate
+This is a Python CLI app that calculates sales commissions depending on the rate
 
 e.g., python3 commissions.py 1400000 T20
 

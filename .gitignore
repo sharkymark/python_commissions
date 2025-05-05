@@ -4,3 +4,4 @@ venv/
 *.pyo
 *.pyd
 *.log
+commission_settings.json
